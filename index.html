@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>校园智能预问诊 · 对话</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body class="chat-page">
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <strong>校园预问诊</strong>
+          <span>郑州大学 · 智能分诊引导</span>
+        </div>
+      </div>
+
+      <section class="panel">
+        <div class="panel-head">
+          <span>本次问诊</span>
+          <strong id="progressCount">0/5</strong>
+        </div>
+        <ul class="progress-list" id="progressList">
+          <li data-field="part"><i class="dot"></i><span>症状部位</span><em>待采集</em></li>
+          <li data-field="onset"><i class="dot"></i><span>起病时间</span><em>待采集</em></li>
+          <li data-field="duration"><i class="dot"></i><span>持续时间</span><em>待采集</em></li>
+          <li data-field="severity"><i class="dot"></i><span>严重程度</span><em>待采集</em></li>
+          <li data-field="associated"><i class="dot"></i><span>伴随表现</span><em>待采集</em></li>
+        </ul>
+        <div class="track"><i id="progressBar"></i></div>
+        <div class="risk-state" id="riskState"><i></i><span>未触发高危规则</span></div>
+      </section>
+
+      <section class="panel safety-panel">
+        <div class="safety-title">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5.2c0 4.2-2.8 7.6-7 9.8-4.2-2.2-7-5.6-7-9.8V6l7-3z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.2 12.2l2 2 3.6-3.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          使用边界
+        </div>
+        <ul>
+          <li>仅提供就医前信息整理与引导</li>
+          <li>不提供疾病诊断、处方或用药剂量</li>
+          <li>识别到高危信号时优先建议线下就医</li>
+          <li>真实病情请以医生现场判断为准</li>
+        </ul>
+      </section>
+
+      <div class="sidebar-foot">
+        <button class="btn btn-ghost" id="summaryBtn" disabled>
+          查看就诊摘要
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="btn btn-text" id="resetBtn">重新开始</button>
+        <p class="foot-note">原型演示 · 模拟数据</p>
+      </div>
+    </aside>
+
+    <main class="chat-main">
+      <header class="chat-head">
+        <div class="head-info">
+          <span class="status-dot" aria-hidden="true"></span>
+          <div>
+            <h1>预问诊助手</h1>
+            <p>多轮症状采集 · 高危识别 · 就医引导</p>
+          </div>
+        </div>
+        <div class="head-actions">
+          <span class="badge">辅助而非诊断</span>
+          <span class="badge badge-soft" id="stepBadge">问诊中</span>
+          <button class="icon-btn" id="resultLink" disabled title="完成本次问诊后可查看">
+            结果页
+            <svg viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="chat-scroll" id="chatScroll">
+        <div class="chat-inner" id="messages" aria-live="polite"></div>
+      </div>
+
+      <div class="composer-wrap">
+        <div class="composer-inner">
+          <form class="composer" id="composer">
+            <textarea id="input" rows="1" placeholder="请描述你的不适，例如：咽痛、低热两天…" aria-label="输入消息"></textarea>
+            <button class="send-btn" id="sendBtn" type="submit" aria-label="发送">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M4.5 11.8L19 5l-6.2 14.2-2.1-5.7-6.2-1.7z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10.7 13.5L19 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            </button>
+          </form>
+          <p class="composer-hint"><b>Enter</b> 发送 · <b>Shift + Enter</b> 换行 · 请勿输入真实姓名等身份信息</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/mock.js"></script>
+  <script src="assets/chat.js"></script>
+</body>
+</html>

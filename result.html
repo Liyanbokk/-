@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>校园智能预问诊 · 就诊摘要</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body class="result-page">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <strong>校园智能预问诊</strong>
+          <span>郑州大学 · 智能分诊引导</span>
+        </div>
+      </a>
+      <div class="topbar-actions">
+        <span class="badge">辅助而非诊断</span>
+        <a class="btn btn-ghost" href="index.html">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          返回对话
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="result-wrap">
+    <section class="result-hero">
+      <div>
+        <p class="eyebrow">Pre-consult Summary</p>
+        <h1>就诊前症状摘要</h1>
+        <p class="hero-sub">已根据本次对话整理，可在就诊时向医生出示。内容仅作就医前信息整理，不构成诊断、处方或个体化用药建议。</p>
+        <div class="hero-meta">
+          <span>生成时间 <b id="generatedAt">—</b></span>
+          <span>问诊轮次 <b id="turnCount">—</b></span>
+          <span>信息完整度 <b id="completeness">—</b></span>
+          <span id="demoFlag" style="display:none; color:#8f3a36; border-color:#efcac6; background:#fff7f6;">示例数据预览</span>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <button class="btn btn-primary" id="copyBtn">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M15 6H7a2 2 0 0 0-2 2v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          复制摘要
+        </button>
+        <button class="btn btn-ghost" id="printBtn">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M7 9V4h10v5M7 18H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><rect x="7" y="15" width="10" height="6" rx="1.5" stroke="currentColor" stroke-width="1.7"/></svg>
+          打印 / 保存 PDF
+        </button>
+      </div>
+    </section>
+
+    <div id="riskBanner"></div>
+
+    <div class="result-grid">
+      <div class="result-main">
+        <section class="card">
+          <div class="section-head">
+            <span class="section-index">01</span>
+            <div>
+              <h2>症状摘要</h2>
+              <p>主诉与结构化症状字段，可直接向医生出示</p>
+            </div>
+          </div>
+          <p class="summary-quote" id="summaryText">—</p>
+          <div class="field-grid" id="fieldGrid"></div>
+          <p class="card-note" id="missingNote" style="display:none;"></p>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <span class="section-index">02</span>
+            <div>
+              <h2>科室引导</h2>
+              <p>根据症状部位与伴随表现给出的就诊方向建议</p>
+            </div>
+          </div>
+          <div class="dept-top" id="deptTop">
+            <div class="dept-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M4 21V8.5L12 4l8 4.5V21" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 21v-5h6v5M12 9v4M10 11h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <span class="dept-label">建议优先就诊</span>
+              <strong id="deptName">—</strong>
+            </div>
+            <div class="dept-alt">
+              备选方向
+              <b id="deptAlt">—</b>
+            </div>
+          </div>
+          <ul class="reasons" id="reasons"></ul>
+          <p class="dept-note" id="deptNote"></p>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <span class="section-index">03</span>
+            <div>
+              <h2>就诊前准备</h2>
+              <p>出发前逐项确认，减少往返和遗漏</p>
+            </div>
+          </div>
+          <ul class="checklist" id="prepList"></ul>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <span class="section-index">04</span>
+            <div>
+              <h2>健康科普与知识依据</h2>
+              <p>每条内容标注来源与更新时间，便于追溯</p>
+            </div>
+          </div>
+          <div class="knowledge-list" id="knowledgeList"></div>
+          <p class="card-note">知识条目为原型演示用的示例数据。正式版本将接入经医学专业人员审核的知识库，并提供来源链接与版本记录。</p>
+        </section>
+
+        <section class="card disclaimer">
+          <div class="section-head">
+            <span class="section-index">05</span>
+            <div>
+              <h2>安全声明</h2>
+            </div>
+          </div>
+          <p><strong>本页不构成诊断。</strong>系统仅根据你提供的对话信息整理症状摘要、提示风险并给出就诊方向建议，不能替代医生问诊、检查与诊断，也不提供处方或个体化用药方案。如症状持续加重，请立即前往校医院急诊或就近医院急诊；紧急情况下请拨打 <strong>120</strong>。</p>
+        </section>
+      </div>
+
+      <aside class="result-side">
+        <section class="card side-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5.2c0 4.2-2.8 7.6-7 9.8-4.2-2.2-7-5.6-7-9.8V6l7-3z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+            本次问诊信息
+          </h3>
+          <ul class="side-list">
+            <li><span>问诊轮次</span><b id="sideTurns">—</b></li>
+            <li><span>已采集字段</span><b id="sideFilled">—</b></li>
+            <li><span>待补充项</span><b id="sideMissing">—</b></li>
+            <li><span>风险状态</span><b id="sideRisk">—</b></li>
+          </ul>
+        </section>
+
+        <section class="card side-card no-print">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            快捷操作
+          </h3>
+          <div class="side-actions">
+            <button class="btn btn-primary" id="copyBtn2">复制摘要</button>
+            <a class="btn btn-ghost" href="index.html">返回对话补充信息</a>
+            <button class="btn btn-text" id="restartBtn">重新开始问诊</button>
+          </div>
+        </section>
+
+        <section class="card side-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M6 4h9l4 4v12H6V4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 12h7M9 16h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            使用边界
+          </h3>
+          <ul class="side-safety">
+            <li>仅提供就医前信息整理与分诊引导</li>
+            <li>不提供诊断结论、处方或用药剂量</li>
+            <li>高危提醒不能替代现场医生评估</li>
+            <li>涉及真实病情请以医生判断为准</li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <script src="assets/mock.js"></script>
+  <script src="assets/result.js"></script>
+</body>
+</html>
